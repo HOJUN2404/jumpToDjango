@@ -53,3 +53,6 @@ def question_create(request):
         form = QuestionForm()
     context = {'form': form}
     return render(request, 'pybo/question_form.html', context)
+
+def hojun_test():
+    return "테스트중입니다."
