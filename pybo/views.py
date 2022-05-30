@@ -4,6 +4,8 @@ from .models import Question, Answer
 from .forms import QuestionForm, AnswerForm
 from django.http import HttpResponseNotAllowed
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -21,6 +23,8 @@ def detail(request, question_id):
     return render(request, 'pybo/question_detail.html', context)
 
 
+
+@login_required(login_url='common:login')
 def answer_create(request, question_id):
     """
     pybo 답변등록
@@ -30,6 +34,7 @@ def answer_create(request, question_id):
         form = AnswerForm(request.POST)
         if form.is_valid():
             answer = form.save(commit=False)
+            answer.author = request.user  # author 속성에 로그인 계정 저장
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
@@ -41,11 +46,13 @@ def answer_create(request, question_id):
 
 
 
+@login_required(login_url='common:login')
 def question_create(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
+            question.author = request.user  # author 속성에 로그인 계정 저장
             question.create_date = timezone.now()
             question.save()
             return redirect('pybo:index')
