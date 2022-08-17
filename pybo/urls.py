@@ -20,6 +20,8 @@ urlpatterns = [
          question_views.question_delete, name='question_delete'),
      path('question/vote/<int:question_id>/', 
           question_views.question_vote, name='question_vote'),
+     path('question/doSomething', 
+          question_views.doSomething, name='doSomething'),
      
 
     # answer_views.py
