@@ -1,7 +1,12 @@
+from http.client import HTTPResponse
+import json
+from sre_constants import SUCCESS
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 
 from ..forms import QuestionForm
 from ..models import Question
@@ -59,3 +64,13 @@ def question_vote(request, question_id):
     else:
         question.voter.add(request.user)
     return redirect('pybo:detail', question_id=question.id)
+
+@require_POST
+def doSomething(request):
+    data = 'test1'
+    context = {
+            'result': data,
+        }
+    return HTTPResponse(json.dumps(context), content_type="application/json")
+    # JsonResponse(context)
+    

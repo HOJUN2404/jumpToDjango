@@ -3,7 +3,9 @@
 {% block content %}
 <div class="container my-3">
     <div>
-        <button onclick="alert('아이고메')">이것저것 테스트 1</button>
+        <input type="file">
+        <a href="{% url 'pybo:doSomething' %}" class="button">뭔가하기</a>
+        <button id="test1">이것저것 테스트 1</button>
         <button onclick="alert('아이고메')">이것저것 테스트 2</button>
         <button onclick="alert('아이고메')">이것저것 테스트 3</button>
         <button onclick="alert('아이고메')">이것저것 테스트 4</button>
@@ -86,4 +88,50 @@
     <!-- 페이징처리 끝 -->
     <a href="{% url 'pybo:question_create' %}" class="btn btn-primary">질문 등록하기</a>
 </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element){
+    element.addEventListener('click', function(){
+        if(confirm("정말로 삭제하시겠습니까?")){
+            location.href = this.dataset.uri;
+        };
+    });
+});
+
+const recommend_elements = document.getElementsByClassName("recommend");
+Array.from(recommend_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 추천하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+
+let testData = {'a': 'a', 'b':'b'}
+
+document.getElementById("test1").onclick = function(){
+    console.log(testData.type);
+
+    // $.ajax({
+    //     type: "GET", // This is the default though, you don't actually need to always mention it
+    //     url: "{% url 'pybo:doSomething' %}",
+    //     data: testData,
+    //     // dataType: "json",
+    //     success: function(response) {
+    //         alert(response.message);
+    //     },
+    //     failure: function(response) {
+    //         alert('Got an error dude');
+    //     }
+    // }); 
+}
+
+// const testFunction = document.getElementById("test1");
+
+
+
+</script>
 {% endblock %}
